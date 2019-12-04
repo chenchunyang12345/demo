@@ -3,7 +3,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 import { Input, Button } from 'antd';
 
-import { Ask, Answer } from '../components/main';
+import { Ask, Answer } from '../components/main'; //test
 
 class Page extends Component {
     // 渲染对话流
