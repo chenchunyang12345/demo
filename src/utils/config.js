@@ -1,5 +1,6 @@
 const global = window.global;
 
-export default {
-    API_URL_BASE: global.API_URL_BASE,
-};
+const API_URL_BASE = global.API_URL_BASE;
+const botName = global.BOT_NAME;
+
+export { API_URL_BASE, botName };

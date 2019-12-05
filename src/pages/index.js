@@ -6,6 +6,11 @@ import { Input, Button } from 'antd';
 import { Ask, Answer, Recorder } from '../components/main';
 
 class Page extends Component {
+    componentDidMount() {
+        let { openSession } = this.props;
+        openSession();
+    }
+
     // 渲染对话流
     renderDialog = () => {
         let { dialog } = this.props;
@@ -22,23 +27,28 @@ class Page extends Component {
         });
     };
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.dialog.length !== this.props.dialog.length) {
+            // 如果对话内容更新了
+            console.log(this.el);
+            this.el.scrollTo(9999);
+        }
+    }
+
     render() {
-        let { inputText, changInputText, sendText } = this.props;
+        let { inputText, changInputText, ask } = this.props;
         return (
             <div className={styles.wrap}>
                 <header>
                     <h1>对话展示</h1>
                 </header>
-                <main>{this.renderDialog()}</main>
+                <main ref={el => (this.el = el)}>{this.renderDialog()}</main>
                 <footer>
                     <div className={styles.audio}>
                         <Recorder />
                     </div>
                     <div className={styles.inputArea}>
                         <Input
-                            ref={el => {
-                                this.el = el;
-                            }}
                             autoFocus
                             placeholder="请输入问题"
                             allowClear={true}
@@ -46,11 +56,11 @@ class Page extends Component {
                             onChange={e => {
                                 changInputText(e.target.value);
                             }}
-                            onPressEnter={sendText}
+                            onPressEnter={ask}
                         />
                     </div>
                     <div className={styles.send}>
-                        <Button onClick={sendText}>发送</Button>
+                        <Button onClick={ask}>发送</Button>
                     </div>
                 </footer>
             </div>
@@ -70,10 +80,14 @@ let mapDispatchToProps = dispatch => {
                 payload: value,
             });
         },
-        sendText: payload => {
+        ask: () => {
             dispatch({
-                type: 'main/sendText',
-                payload,
+                type: 'main/ask',
+            });
+        },
+        openSession: () => {
+            dispatch({
+                type: 'main/openSession',
             });
         },
     };

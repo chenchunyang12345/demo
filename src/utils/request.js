@@ -34,7 +34,7 @@ function request(url, method, body) {
         body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            // Authorization: localStorage.getItem('token'),
         },
     })
         .then(checkStatus)
@@ -75,10 +75,9 @@ function getDataAndTotal(url, method, body) {
     return { ...data, headers: headers };
 }
 
-export default {
-    get: url => request(url, 'GET'),
-    post: (url, body) => request(url, 'POST', body),
-    put: (url, body) => request(url, 'PUT', body),
-    del: (url, body) => request(url, 'DELETE', body),
-    getDataAndTotal: (url, method, body) => getDataAndTotal(url, method, body),
-};
+const get = url => request(url, 'GET');
+const post = (url, body) => request(url, 'POST', body);
+const put = (url, body) => request(url, 'PUT', body);
+const del = (url, body) => request(url, 'DELETE', body);
+
+export { get, post, put, del, getDataAndTotal };

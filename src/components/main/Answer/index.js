@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import echarts from 'echarts';
 
+import echartConfig from './echartConfig';
+
 class Answer extends Component {
     constructor(props) {
         super(props);
@@ -16,26 +18,15 @@ class Answer extends Component {
 
     renderChart(type) {
         switch (type) {
-            case 'PIE':
+            case '报表':
                 this.echartDom = document.getElementById(this.id);
-                let myChart = echarts.init(this.echartDom);
-                myChart.setOption({
-                    title: {
-                        text: 'ECharts 入门示例',
-                    },
-                    tooltip: {},
-                    xAxis: {
-                        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-                    },
-                    yAxis: {},
-                    series: [
-                        {
-                            name: '销量',
-                            type: 'bar',
-                            data: [5, 20, 36, 10, 10, 20],
-                        },
-                    ],
-                });
+                let myChartOne = echarts.init(this.echartDom);
+                myChartOne.setOption(echartConfig.BAR);
+                break;
+            case '饼图':
+                this.echartDom = document.getElementById(this.id);
+                let myChartTwo = echarts.init(this.echartDom);
+                myChartTwo.setOption(echartConfig.PIE);
                 break;
             default:
                 return null;
@@ -43,13 +34,15 @@ class Answer extends Component {
     }
 
     render() {
-        let { text } = this.props;
+        let { text, type } = this.props;
         return (
             <div className={styles.wrap}>
                 <img src={require('../../../assets/robot_1227356_easyicon.net.svg')} alt="" />
                 <div className={styles.content}>
                     {text}
-                    <div id={this.id} style={{ width: '500px', height: '300px' }}></div>
+                    {type ? (
+                        <div id={this.id} style={{ width: '500px', height: '200px' }}></div>
+                    ) : null}
                 </div>
             </div>
         );
