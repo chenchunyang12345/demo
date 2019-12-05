@@ -3,9 +3,14 @@ import styles from './index.less';
 import { connect } from 'dva';
 import { Input, Button } from 'antd';
 
-import { Ask, Answer } from '../components/main'; //test23
+import { Ask, Answer, Recorder } from '../components/main';
 
 class Page extends Component {
+    componentDidMount() {
+        let { setInputDom } = this.props;
+        setInputDom(this.el);
+    }
+
     // 渲染对话流
     renderDialog = () => {
         let { dialog } = this.props;
@@ -32,10 +37,13 @@ class Page extends Component {
                 <main>{this.renderDialog()}</main>
                 <footer>
                     <div className={styles.audio}>
-                        <Button icon="audio">按住说话</Button>
+                        <Recorder />
                     </div>
                     <div className={styles.inputArea}>
                         <Input
+                            ref={el => {
+                                this.el = el;
+                            }}
                             autoFocus
                             placeholder="请输入问题"
                             allowClear={true}
@@ -70,7 +78,13 @@ let mapDispatchToProps = dispatch => {
         sendText: payload => {
             dispatch({
                 type: 'main/sendText',
-                payload: payload,
+                payload,
+            });
+        },
+        setInputDom: payload => {
+            dispatch({
+                type: 'main/setInputDom',
+                payload,
             });
         },
     };
