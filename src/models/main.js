@@ -10,8 +10,7 @@ export default {
     namespace: 'main',
     state: {
         inputText: '',
-        dialog: [], // num1为问，num2为答
-        inputDom: null,
+        dialog: [{ num: 2, text: '下面是调查结果', type: 'PIE' }], // num1为问，num2为答
     },
     reducers: {
         setInputText(state, { payload: inputText }) {
@@ -30,9 +29,6 @@ export default {
                 text,
             });
             return { ...state, dialog: newDialog, inputText: '' };
-        },
-        setInputDom(state, { payload: inputDom }) {
-            return { ...state, inputDom };
         },
     },
     effects: {},

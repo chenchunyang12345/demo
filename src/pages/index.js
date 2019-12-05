@@ -6,21 +6,16 @@ import { Input, Button } from 'antd';
 import { Ask, Answer, Recorder } from '../components/main';
 
 class Page extends Component {
-    componentDidMount() {
-        let { setInputDom } = this.props;
-        setInputDom(this.el);
-    }
-
     // 渲染对话流
     renderDialog = () => {
         let { dialog } = this.props;
         return dialog.map((item, idx) => {
-            let { num, text } = item;
+            let { num, text, type } = item;
             switch (num) {
                 case 1:
                     return <Ask text={text} key={idx} />;
                 case 2:
-                    return <Answer text={text} key={idx} />;
+                    return <Answer text={text} type={type} key={idx} />;
                 default:
                     return null;
             }
@@ -78,12 +73,6 @@ let mapDispatchToProps = dispatch => {
         sendText: payload => {
             dispatch({
                 type: 'main/sendText',
-                payload,
-            });
-        },
-        setInputDom: payload => {
-            dispatch({
-                type: 'main/setInputDom',
                 payload,
             });
         },
